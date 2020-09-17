@@ -1,0 +1,2 @@
+# helper for windows shell script execution through cygwin
+*.sh text eol=lf
