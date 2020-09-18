@@ -6,25 +6,37 @@
 
     public class TrackerDbContextSeed
     {
-        public static async Task SeedSampleDataAsync(TrackerDbContext context, string userId)
+        public static async Task SeedSampleDataAsync(TrackerDbContext context)
         {
             // seed predefined data.
             if (!context.Projects.Any())
             {
-                var a = context.Projects.Add(new Project
+                // predefined project.
+                var project = context.Projects.Add(new Project
                 {
                     Key = "TKWZ",
                     Name = "Tracker System",
-                    OwnerId = userId
+                    OwnerId = "manager@terkwaz.com"
                 });
 
-                await context.SaveChangesAsync();
-
+                // add creator/owner as a default participant.
                 context.ProjectParticipants.Add(new ProjectParticipant
                 {
-                    AddedBy = userId,
-                    ProjectId = a.Entity.Id,
-                    UserId = userId
+                    AddedBy = "manager@terkwaz.com",
+                    ProjectId = project.Entity.Id,
+                    UserId = "manager@terkwaz.com"
+                });
+
+                // add new issue.
+                context.Issues.Add(new Issue
+                {                    
+                    ProjectId = project.Entity.Id,
+                    Description = "User Story for Tracker Sysytem Project description",
+                    Reporter = "manager@terkwaz.com",
+                    Status = Domain.Enums.IssueStatus.Todo,
+                    StoryPoint = 8,
+                    Title = "User Story for Tracker Sysytem Project",
+                    Type = Domain.Enums.IssueType.Story
                 });
 
                 await context.SaveChangesAsync();
