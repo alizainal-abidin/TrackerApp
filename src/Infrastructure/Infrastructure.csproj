@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Tracker.App.Infrastructure</RootNamespace>
+    <AssemblyName>Tracker.App.Infrastructure</AssemblyName>
     <CodeAnalysisRuleSet>..\\..\\StyleCop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 

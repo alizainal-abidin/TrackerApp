@@ -14,8 +14,7 @@
             this.RuleFor(i => i.Title).MaximumLength(200).NotEmpty();
 
             this.RuleFor(i => new { i.StoryPoint, i.StepsToReplicate })
-                .Must(i => !i.StoryPoint.HasValue || i.StoryPoint == 0 ||
-                    !string.IsNullOrEmpty(i.StepsToReplicate) || string.IsNullOrEmpty(i.StepsToReplicate))
+                .Must(i => !i.StoryPoint.HasValue || i.StoryPoint <= 0 || string.IsNullOrEmpty(i.StepsToReplicate))
                 .WithMessage("StoryPoint and StepsToReplicate are mutually exclusive, an issue can not have both set.");
 
             this.When(i => i.Type == IssueType.Task, () => 
@@ -31,7 +30,7 @@
 
             this.When(i => i.Type == IssueType.Story, () =>
             {
-                this.RuleFor(v => v.StepsToReplicate).Empty().WithMessage("a Story cannot has 'StoryPoints' property");
+                this.RuleFor(v => v.StepsToReplicate).Empty().WithMessage("a Story cannot has 'StepsToReplicate' property");
             });
         }
     }

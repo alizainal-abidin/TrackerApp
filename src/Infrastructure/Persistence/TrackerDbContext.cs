@@ -4,7 +4,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Application.Common.Interfaces;
-    using AutoMapper.Configuration;
     using Domain.Common;
     using Domain.Entities;
     using IdentityServer4.EntityFramework.Options;
@@ -14,21 +13,24 @@
     public class TrackerDbContext : DbContext, ITrackerDbContext
     {
         private readonly DbContextOptions options;
-        private readonly IConfiguration configuration;
         private readonly ICurrentUserService currentUserService;
         private readonly IDateTimeService dateTimeService;
         private readonly IOptions<OperationalStoreOptions> operationalStoreOptions;
 
-        public TrackerDbContext(
+        public TrackerDbContext(DbContextOptions options)
+            : base(options)
+        {
+            this.options = options;
+        }
+
+            public TrackerDbContext(
             DbContextOptions options,
-            IConfiguration configuration,
             ICurrentUserService currentUserService,
             IDateTimeService dateTimeService,
             IOptions<OperationalStoreOptions> operationalStoreOptions)
             : base(options)
         {
             this.options = options;
-            this.configuration = configuration;
             this.currentUserService = currentUserService;
             this.dateTimeService = dateTimeService;
             this.operationalStoreOptions = operationalStoreOptions;

@@ -8,6 +8,8 @@
     {
         public void Configure(EntityTypeBuilder<Project> builder)
         {
+            builder.Ignore(p => p.DomainEvents);
+
             builder.HasKey(p => p.Id);
 
             builder.HasAlternateKey(p => p.Key);
