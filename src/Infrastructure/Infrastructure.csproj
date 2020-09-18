@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Configuration\" />
-    <Folder Include="Persistence\Configurations\" />
   </ItemGroup>
 
 </Project>
