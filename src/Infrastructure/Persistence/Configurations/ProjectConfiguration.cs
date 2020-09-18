@@ -12,7 +12,10 @@
 
             builder.HasAlternateKey(p => p.Key);
             builder.Property(p => p.Key)
-                .HasMaxLength(4);            
+                .HasMaxLength(4);
+
+            builder.Property(p => p.Name)
+                .HasMaxLength(500);
         }
     }
 }

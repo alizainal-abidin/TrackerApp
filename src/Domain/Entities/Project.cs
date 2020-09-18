@@ -2,7 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using Domain.Common;    
+    using Domain.Common;
+    using Domain.Events;
 
     public class Project : AuditableEntity
     {
@@ -10,6 +11,8 @@
         {
             this.Participants = new List<ProjectParticipant>();
             this.Issues = new List<Issue>();
+
+            this.DomainEvents.Add(new ProjectCreatedEvent(this));
         }
 
         public Guid Id { get; set; }
@@ -24,6 +27,8 @@
 
         public IList<ProjectParticipant> Participants { get; private set; }
 
-        public IList<Issue> Issues { get; private set; }        
+        public IList<Issue> Issues { get; private set; }
+
+        public List<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();
     }
 }
