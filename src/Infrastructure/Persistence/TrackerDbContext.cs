@@ -1,5 +1,6 @@
 ﻿namespace Infrastructure.Persistence
 {
+    using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
@@ -15,6 +16,7 @@
         private readonly DbContextOptions options;
         private readonly ICurrentUserService currentUserService;
         private readonly IDateTimeService dateTimeService;
+        private readonly IDomainEventService domainEventService;
         private readonly IOptions<OperationalStoreOptions> operationalStoreOptions;
 
         public TrackerDbContext(DbContextOptions options)
@@ -27,12 +29,14 @@
             DbContextOptions options,
             ICurrentUserService currentUserService,
             IDateTimeService dateTimeService,
+            IDomainEventService domainEventService,
             IOptions<OperationalStoreOptions> operationalStoreOptions)
             : base(options)
         {
             this.options = options;
             this.currentUserService = currentUserService;
             this.dateTimeService = dateTimeService;
+            this.domainEventService = domainEventService;
             this.operationalStoreOptions = operationalStoreOptions;
         }
 
@@ -67,6 +71,19 @@
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(builder);
+        }
+
+        private async Task DispatchEvents(CancellationToken cancellationToken)
+        {
+            var domainEventEntities = this.ChangeTracker.Entries<IHasDomainEvent>()
+                .Select(x => x.Entity.DomainEvents)
+                .SelectMany(x => x)
+                .ToArray();
+
+            foreach (var domainEvent in domainEventEntities)
+            {
+                await this.domainEventService.Publish(domainEvent);
+            }
         }
     }
 }
