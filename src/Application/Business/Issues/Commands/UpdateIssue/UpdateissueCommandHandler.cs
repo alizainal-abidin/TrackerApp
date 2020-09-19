@@ -24,10 +24,15 @@
             {
                 throw new NotFoundException(nameof(Issue), request.Id);
             }
+            
+            var entry = this.Context.Issues.Attach(entity);                
+                
+            entity = this.Mapper.Map(request, entity);
 
-            entity = this.Mapper.Map<Issue>(request);
+            entry.State = EntityState.Modified;
+
             await this.Context.SaveChangesAsync(cancellationToken);
-
+            
             return Unit.Value;
         }
     }

@@ -6,6 +6,7 @@
     using Application.Common.Interfaces;
     using Domain.Entities;
     using MediatR;
+    using Microsoft.EntityFrameworkCore;
 
     public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand>
     {
@@ -24,8 +25,12 @@
                 throw new NotFoundException(nameof(Project), request.Id);
             }
 
+            var entry = this.context.Projects.Attach(entity);
+
             entity.IsDeleted = request.IsDeleted;
             entity.Name = request.Name;
+
+            entry.State = EntityState.Modified;
 
             await this.context.SaveChangesAsync(cancellationToken);
 

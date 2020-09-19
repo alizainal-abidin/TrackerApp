@@ -31,8 +31,7 @@
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Issue, UpdateIssueCommand>().IgnoreAllNonExisting();
-            profile.CreateMap<UpdateIssueCommand, Issue>().IgnoreAllNonExisting();
+            profile.CreateMap<UpdateIssueCommand, Issue>();
         }
     }
 }
