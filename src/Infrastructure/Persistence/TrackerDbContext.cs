@@ -46,7 +46,7 @@
 
         public DbSet<Issue> Issues { get; set; }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             foreach (var entry in this.ChangeTracker.Entries<AuditableEntity>())
             {
@@ -63,7 +63,11 @@
                 }
             }
 
-            return base.SaveChangesAsync(cancellationToken);
+            var results = await base.SaveChangesAsync(cancellationToken);
+            
+            await this.DispatchEvents(cancellationToken);
+
+            return results;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

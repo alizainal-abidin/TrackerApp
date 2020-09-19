@@ -10,9 +10,7 @@
         public Project()
         {
             this.Participants = new List<ProjectParticipant>();
-            this.Issues = new List<Issue>();
-
-            this.DomainEvents.Add(new ProjectCreatedEvent(this));
+            this.Issues = new List<Issue>();            
         }
 
         public Guid Id { get; set; }

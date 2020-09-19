@@ -21,12 +21,14 @@
             this.RuleFor(p => p.ProjectId)
                 .NotEmpty();
 
-            this.RuleFor(v => v)
+            this.RuleFor(v => v)                
                 .MustAsync((obj, domain) => this.IsProductOwner(obj.AddedBy, obj.ProjectId, default))
+                .OverridePropertyName("OwnerId")
                 .WithMessage("Unable to add participant, either you have no authorization or the Project has been removed");
 
             this.RuleFor(p => p)
                 .MustAsync((obj, domain) => this.NotExist(obj.ProjectId, obj.UserId, default))
+                .OverridePropertyName("UserId")
                 .WithMessage("Participant has already been added to this project");
         }
 
