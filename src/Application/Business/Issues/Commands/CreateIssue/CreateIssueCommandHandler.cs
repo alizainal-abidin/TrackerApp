@@ -28,6 +28,7 @@
 
             var entity = new Issue
             {
+                Assignee = request.Assignee,
                 Description = request.Description,
                 ProjectId = request.ProjectId,
                 ParentId = request.ParentId,
