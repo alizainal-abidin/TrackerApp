@@ -12,6 +12,8 @@
 
         public CollectionResponse(IReadOnlyCollection<T> items, int count, int pageIndex, int pageSize)
         {
+            pageSize = pageSize <= 0 ? 1 : pageSize;
+
             this.Items = items;
             this.PageIndex = pageIndex;
             this.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
