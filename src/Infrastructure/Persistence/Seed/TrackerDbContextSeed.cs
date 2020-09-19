@@ -14,7 +14,7 @@
                 // predefined project.
                 var project = context.Projects.Add(new Project
                 {
-                    Key = "TKWZ",
+                    Key = "TRCK",
                     Name = "Tracker System",
                     OwnerId = "manager@terkwaz.com"
                 });
@@ -29,7 +29,8 @@
 
                 // add new issue.
                 context.Issues.Add(new Issue
-                {                    
+                {     
+                    Id = $"{project.Entity.Key}-{1}",
                     ProjectId = project.Entity.Id,
                     Description = "User Story for Tracker Sysytem Project description",
                     Reporter = "manager@terkwaz.com",

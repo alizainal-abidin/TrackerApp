@@ -5,7 +5,7 @@
     using Domain.Common;
     using Domain.Events;
 
-    public class Project : AuditableEntity
+    public class Project : AuditableEntity, IHasDomainEvent
     {
         public Project()
         {

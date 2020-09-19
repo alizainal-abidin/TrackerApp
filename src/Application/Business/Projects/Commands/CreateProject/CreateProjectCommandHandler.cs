@@ -26,15 +26,15 @@
                 OwnerId = request.OwnerId,
             };
 
-            this.context.Projects.Add(entity);
-
-            await this.context.SaveChangesAsync(cancellationToken);
+            this.context.Projects.Add(entity);            
 
             // HACK: add the owner as a default participants.
             // it is not ideal here,
             // just trying to demonstrate how we can create an Event and utilize Mediatr.INotification to handle it.
             // more common case: on creating a Project, system will send a notification email to the Project Owner.
             entity.DomainEvents.Add(new ProjectCreatedEvent(entity));
+
+            await this.context.SaveChangesAsync(cancellationToken);
 
             return entity.Id;
         }
